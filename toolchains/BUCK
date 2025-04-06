@@ -4,6 +4,8 @@ load("@prelude//toolchains:python.bzl", "system_python_bootstrap_toolchain")
 # A build configuration constraint that we will switch on in the C++ toolchain
 # using `select`. Note that we can `select` on constraints in any target
 # definition, not just toolchains.
+# Note that those constraints can be defined anywhere, I only define them next
+# to the toolchain here for convenience.
 constraint_setting(name = "cxx_standard")
 
 # Some values for `cxx_standard`. Think of them as enum values that can be
@@ -13,6 +15,14 @@ constraint_value(name = "cxx20", constraint_setting = ":cxx_standard")
 constraint_value(name = "cxx23", constraint_setting = ":cxx_standard")
 constraint_value(name = "cxx26", constraint_setting = ":cxx_standard")
 
+# This defines a custom C++ toolchain, which C++ rules will pick up.
+# It's not _that_ custom because it uses a prelude rule that picks up the
+# tools from the environment, all we do is set the flags passed to the
+# compiler. You could however write something a lot more custom (and hermetic,
+# if you wanted), by implementing a rule that:
+# - has `is_toolchain_rule = True`
+# - returns at least a `CxxToolchainInfo` provider
+# You'd then call this rule here instead of `system_cxx_toolchain`.
 system_cxx_toolchain(
     name = "cxx",
     cxx_flags = select({
@@ -23,6 +33,8 @@ system_cxx_toolchain(
     visibility = ["PUBLIC"],
 )
 
+# The C++ toolchain uses Python helpers, so we just pick up the system Python
+# for that.
 system_python_bootstrap_toolchain(
     name = "python_bootstrap",
     visibility = ["PUBLIC"],
