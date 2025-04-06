@@ -11,8 +11,8 @@ Showcase how to:
 
 ```sh
 # Yay!
-buck2 run :hello -m toolchains//:cxx23
-buck2 run :hello -m toolchains//:cxx26
+buck2 run :hello -m cxx23
+buck2 run :hello -m cxx26
 # Boo!
-buck2 run :hello -m toolchains//:cxx20
+buck2 run :hello -m cxx20
 ```

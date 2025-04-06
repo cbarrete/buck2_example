@@ -5,6 +5,10 @@ native.set_cfg_constructor(
     stage0 = cfg_constructor_pre_constraint_analysis,
     stage1 = cfg_constructor_post_constraint_analysis,
     key = MODIFIER_METADATA_KEY,
-    aliases = struct(),
+    aliases = struct(
+        cxx20 = "toolchains//:cxx20",
+        cxx23 = "toolchains//:cxx23",
+        cxx26 = "toolchains//:cxx26",
+    ),
     extra_data = struct(),
 )
