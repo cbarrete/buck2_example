@@ -1,6 +1,6 @@
-#include <iostream>
+#include <print>
 
 int main() {
-    std::cout << "Hello, buckaroos!\n";
+    std::println("Hello, buckaroos!");
     return 0;
 }
