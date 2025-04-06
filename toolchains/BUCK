@@ -1,9 +1,25 @@
 load("@prelude//toolchains:cxx.bzl", "system_cxx_toolchain")
 load("@prelude//toolchains:python.bzl", "system_python_bootstrap_toolchain")
 
+# A build configuration constraint that we will switch on in the C++ toolchain
+# using `select`. Note that we can `select` on constraints in any target
+# definition, not just toolchains.
+constraint_setting(name = "cxx_standard")
+
+# Some values for `cxx_standard`. Think of them as enum values that can be
+# switched on, or used to restrict compatibility (e.g. "this `cxx_library`
+# target is only compatible with C++26").
+constraint_value(name = "cxx20", constraint_setting = ":cxx_standard")
+constraint_value(name = "cxx23", constraint_setting = ":cxx_standard")
+constraint_value(name = "cxx26", constraint_setting = ":cxx_standard")
+
 system_cxx_toolchain(
     name = "cxx",
-    cxx_flags = ["-std=c++26"],
+    cxx_flags = select({
+        ":cxx20": ["-std=c++20"],
+        ":cxx23": ["-std=c++23"],
+        ":cxx26": ["-std=c++26"],
+    }),
     visibility = ["PUBLIC"],
 )
 
