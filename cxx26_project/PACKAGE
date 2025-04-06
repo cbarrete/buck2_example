@@ -1,0 +1,10 @@
+load("@prelude//cfg/modifier/set_cfg_modifiers.bzl", "set_cfg_modifiers")
+
+# Set the `cxx26` modifier for all targets in this directory. This lets us
+# build the targets in this project without having to pass `--modifier`/`-m`
+# via the command line.
+# Note that we can also add the `modifier` attribute to individual target
+# definitions instead, which has higher priority, but setting it at the
+# `PACKAGE` level is more convenient/less error-prone if all targets in the
+# project should be affected.
+set_cfg_modifiers(["toolchains//:cxx26"])

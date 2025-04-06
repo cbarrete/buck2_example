@@ -2,12 +2,12 @@
 
 TODO: Write some docs for this.
 
-Showcase how to:
+Showcases how to:
 
 - Do custom toolchains
 - Define build configurations
 - Use modifiers, including aliases
-- Use PACKAGE files maybe?
+- Use PACKAGE files
 
 ```sh
 # Yay!
