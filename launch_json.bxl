@@ -1,0 +1,39 @@
+def _impl(ctx: bxl.Context):
+    actions = ctx.bxl_actions().actions
+
+    targets = ctx.configured_targets(ctx.cli_args.targets, modifiers = ctx.modifiers)
+    configurations = []
+    for label, build_result in ctx.build(targets).items():
+        artifacts = build_result.artifacts()
+        if len(artifacts) == 0:
+            continue
+        artifact = artifacts[0]
+        configurations.append({
+            "args": ctx.cli_args.args,
+            "cwd": "${workspaceFolder}",
+            "name": "Debug {}".format(label),
+            "program": artifact,
+            "request": "launch",
+            "runInTerminal": True,
+            "type": "lldb",
+        })
+
+    launch_json = actions.declare_output("launch.json")
+    actions.write_json(
+        launch_json.as_output(),
+        {
+            "configurations": configurations,
+            "version": "0.2.0",
+        },
+        absolute = True,
+        pretty = True,
+    )
+    ctx.output.print(ctx.output.ensure(launch_json))
+
+gen = bxl_main(
+    impl = _impl,
+    cli_args = {
+        "args": cli_args.list(cli_args.string(), default = []),
+        "targets": cli_args.target_expr(),
+    },
+)

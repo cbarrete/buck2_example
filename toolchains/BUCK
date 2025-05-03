@@ -25,7 +25,7 @@ constraint_value(name = "cxx26", constraint_setting = ":cxx_standard")
 # You'd then call this rule here instead of `system_cxx_toolchain`.
 system_cxx_toolchain(
     name = "cxx",
-    cxx_flags = select({
+    cxx_flags = ["-g", "-Og"] + select({
         ":cxx20": ["-std=c++20"],
         ":cxx23": ["-std=c++23"],
         ":cxx26": ["-std=c++26"],

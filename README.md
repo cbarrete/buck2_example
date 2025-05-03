@@ -60,6 +60,18 @@ buck2 run cxx26_project:hello
 buck2 run cxx26_project:hello -m cxx20
 ```
 
+## Debugging
+
+[`launch_json.bxl`](./launch_json.bxl) is an example BXL script that shows how to generate a `launch.json` file that can be consumed by editors such as Neovim (using [nvim-dap](https://github.com/mfussenegger/nvim-dap)) and VS Code.
+
+This script takes a target expression, builds the matching targets, and prints the path to a JSON file containing configurations to run the output artifacts under a debugger. Note that this is only an example, you may want to tweak it to your needs.
+
+```sh
+# Generate a `launch.json` file for all targets in the repo, built with C++23,
+# and install it in the `.vscode/` directory.
+cp $(./buck2 bxl launch_json.bxl:gen -m cxx23 -- --targets //...) .vscode/
+```
+
 ## TODO
 
 Things that might be worth adding if I have time/feel like it:
