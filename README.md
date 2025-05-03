@@ -72,6 +72,17 @@ This script takes a target expression, builds the matching targets, and prints t
 cp $(./buck2 bxl launch_json.bxl:gen -m cxx23 -- --targets //...) .vscode/
 ```
 
+This requires your editor to have a debug adapter configured with the name `lldb`. For example, using `nvim-dap`, the following is all you need:
+
+```lua
+require('dap').adapters.lldb = {
+    name = 'lldb',
+    type = 'executable',
+    -- Must be an absolute path if `runInTerminal` is used, for some reason.
+    command = vim.trim(vim.system({'which', 'lldb-dap'}):wait().stdout),
+}
+```
+
 ## TODO
 
 Things that might be worth adding if I have time/feel like it:
